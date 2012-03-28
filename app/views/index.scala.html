@@ -1,0 +1,67 @@
+@(dataSet: DataSet)
+
+@main("ScaQCMS") {
+
+    @helper.form(action = routes.Application.upload, 'enctype -> "multipart/form-data") {
+
+<fieldset>
+        <legend>Open qasmCircuit</legend>
+        <input type="file" name="qasmFile"><input type="submit" value="Open">
+    </fieldset>
+    }
+    <fieldset>
+        <legend>Circuit</legend>
+        <table>
+            <tr><td>@Html(dataSet.circuit.replace("\t","</td><td>").replace("<td>\n", "</tr>\n<tr><td>"))</td></tr>
+        </table>
+        @if(dataSet.showPreProcess) {
+          @helper.form(action = routes.Application.preprocess, 'enctype -> "multipart/form-data") {
+            PreProcessingPolicy:
+            <select name="preProcessingPolicy">
+                @for(preProcessingPolicy <- dataSet.preProcessingPolicies) {
+                    <option value="@preProcessingPolicy">@preProcessingPolicy</option>
+                }
+            </select>
+            PreProcessors:
+            <select name="preProcessors" multiple="multiple">
+                @for(preProcessor <- dataSet.preProcessors) {
+                    <option value="@preProcessor">@preProcessor</option>
+                }
+            </select>
+            <input type="submit" value="Preprocess">
+          }
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Equation</legend>
+        <table>
+            <tr><td>@Html(dataSet.equation)</td></tr>
+        </table>
+        @if(dataSet.showSolve) {
+            @helper.form(action = routes.Application.solve, 'enctype -> "multipart/form-data") {
+                SolvingPolicy:
+                <select name="solvingPolicy">
+                    @for(solvingPolicy <- dataSet.solvingPolicies) {
+                        <option value="@solvingPolicy">@solvingPolicy</option>
+                    }
+                </select>
+                Solvers:
+                <select name="solvers" multiple="multiple">
+                    @for(solver <- dataSet.solvers) {
+                        <option value="@solver">@solver</option>
+                    }
+                </select>
+                <input type="submit" value="Solve">
+            }
+        }
+    </fieldset>
+    <fieldset>
+        <legend>Result</legend>
+        <table>
+            <tr><td>@Html(dataSet.result.replace("  ","</td><td>").replace("\n", "</td></tr>\n<tr><td>"))</td></tr>
+        </table>
+        @if(dataSet.showDownload) {
+            @helper.form(action = routes.Application.download) {<input type="submit" value="Download result">}
+        }
+    </fieldset>
+}

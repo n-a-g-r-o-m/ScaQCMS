@@ -1,0 +1,9 @@
+logs
+project/project
+project/target
+dist
+target
+tmp
+.history
+.idea
+*.iml

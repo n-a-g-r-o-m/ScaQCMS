@@ -1,0 +1,32 @@
+ScaQCMS - Scala Quantum Circuit Model Simulator
+=====================================
+
+This software is released under the MIT.  See MIT-LICENSE for details.
+
+Copyright (c) 2012 | Antti Vikman | n-a-g-r-o-m
+
+Building upon:
+    Play framework 2.0  http://www.playframework.org/       (http://www.apache.org/licenses/LICENSE-2.0.html)
+    Scalala             https://github.com/scalala/Scalala  (https://github.com/scalala/Scalala/blob/master/LICENSE)
+
+Usage:
+    Since you have already successfully unzipped the ScaQCMS, now all you need to do is run it.
+
+    Linux (you need to be in this folder):
+        chmod +x start
+        ./start
+
+    Now the ScaQCMS is running and you can access it via web-browser in address http:\\localhost:9000
+
+Developing:
+    Source code available in github https://github.com/n-a-g-r-o-m/ScaQCMS
+
+    In order to compile, you need to have SBT (https://github.com/harrah/xsbt) installed to your system.
+
+    When SBT is installed you just run command "sbt" in this folder and you will get to sbt console.
+
+    Some commands in SBT console:
+        compile - Compiles changed sources
+        run - Compiles changed sources and runs the application (re-compiles on "UI refresh" if sources have changed)
+        doc - Compiles changed sources and generates an API documentation
+        dist - Compiles changed sources and generates distribution ZIP package.
