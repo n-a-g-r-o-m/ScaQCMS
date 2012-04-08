@@ -6,12 +6,16 @@
 
 package models
 
-import preprocessors.{PreProcessor, dummyPreProcessor}
+import preprocessors._
+
 
 object PreProcessors {
   
   val _preProcessors = Map[String, PreProcessor](
-    "dummy" -> dummyPreProcessor
+    "dummy" -> DummyPreProcessor,
+    "balance" -> BalancePreProcessor,
+    "rotation" -> RotationPreProcessor,
+    "known results" -> KnownResultsPreProcessor
   ) 
   
   def getPreProcessors = _preProcessors.keySet

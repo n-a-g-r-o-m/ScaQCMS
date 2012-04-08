@@ -16,9 +16,10 @@ object EquationOperator extends Enumeration {
 }
 
 case class EquationStatistics(sumOperations: Long,
-                           multiplyOperations: Long,
-                           memoryPeak: Long,
-                           memoryResult: Long)
+                              multiplyOperations: Long,
+                              memoryPeak: Long,
+                              memoryResult: Long,
+                              depth: Int)
 
 abstract class EquationEntity {
   /** Rows in the result matrix
@@ -147,8 +148,9 @@ class Equation(a: EquationEntity, b: EquationEntity, op: EquationOperator) exten
     new EquationStatistics(
       sumOperation + aStat.sumOperations + bStat.sumOperations,
       multiplyOperation + aStat.multiplyOperations + bStat.multiplyOperations,
-      16L * (size + _a.size + _b.size),
-      16L * size /*16 is a size of Complex*/
+      16L * (size + _a.size + _b.size), /*16 is a size of Complex*/
+      16L * size, /*16 is a size of Complex*/
+      (aStat.depth max bStat.depth) + 1
     )
   }
   
@@ -170,6 +172,6 @@ class EquationSymbol(name: String,  matrix: Matrix[Complex] = null) extends Equa
   def cols: Int = _matrix.numCols
   def size: Int = _matrix.size
   def getResult: Matrix[Complex] = _matrix
-  def getStatistics = new EquationStatistics(0, 0, 16L * size, 16L * size) /*16 is a size of Complex*/
+  def getStatistics = new EquationStatistics(0, 0, 16L * size, 16L * size, 0) /*16 is a size of Complex*/
   override def toString: String = name
 }

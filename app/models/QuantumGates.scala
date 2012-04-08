@@ -25,23 +25,16 @@ object QuantumGates {
     "swap" -> DenseMatrix((Complex(1,0),Complex(0,0),Complex(0,0),Complex(0,0)),
                           (Complex(0,0),Complex(0,0),Complex(1,0),Complex(0,0)),
                           (Complex(0,0),Complex(1,0),Complex(0,0),Complex(0,0)),
-                          (Complex(0,0),Complex(0,0),Complex(0,0),Complex(1,0))),
-
-    "cP2" -> DenseMatrix((Complex(1,0),Complex(0,0),Complex(0,0),Complex(0,0)),
-                         (Complex(0,0),Complex(1,0),Complex(0,0),Complex(0,0)),
-                         (Complex(0,0),Complex(0,0),Complex(1,0),Complex(0,0)),
-                         (Complex(0,0),Complex(0,0),Complex(0,0),Complex(1,0))),
-
-    "cP4" -> DenseMatrix((Complex(1,0),Complex(0,0),Complex(0,0),Complex(0,0)),
-                         (Complex(0,0),Complex(1,0),Complex(0,0),Complex(0,0)),
-                         (Complex(0,0),Complex(0,0),Complex(1,0),Complex(0,0)),
-                         (Complex(0,0),Complex(0,0),Complex(0,0),Complex(1,0))),
-
-    "cP8" -> DenseMatrix((Complex(1,0),Complex(0,0),Complex(0,0),Complex(0,0)),
-                         (Complex(0,0),Complex(1,0),Complex(0,0),Complex(0,0)),
-                         (Complex(0,0),Complex(0,0),Complex(1,0),Complex(0,0)),
-                         (Complex(0,0),Complex(0,0),Complex(0,0),Complex(1,0)))
+                          (Complex(0,0),Complex(0,0),Complex(0,0),Complex(1,0)))
   )
 
-  def get(key: String): DenseMatrix[Complex] = _quantumGates.get(key).get
+  def get(key: String): DenseMatrix[Complex] = {
+    if(key.startsWith("cP")) {
+      DenseMatrix((Complex(1,0),Complex(0,0),Complex(0,0),Complex(0,0)),
+        (Complex(0,0),Complex(1,0),Complex(0,0),Complex(0,0)),
+        (Complex(0,0),Complex(0,0),Complex(1,0),Complex(0,0)),
+        (Complex(0,0),Complex(0,0),Complex(0,0),Complex(1,0)))
+    } else
+      _quantumGates.get(key).get
+  }
 }

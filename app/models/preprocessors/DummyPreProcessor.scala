@@ -8,7 +8,7 @@ package models.preprocessors
 
 import models.EquationEntity
 
-object dummyPreProcessor extends PreProcessor {
+object DummyPreProcessor extends PreProcessor {
   def call(equation: EquationEntity) = {
     val timer = new models.utils.Timer
     timer.start

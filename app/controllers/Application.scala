@@ -12,17 +12,19 @@ import scalala.scalar.Complex
 import scalala.tensor.Matrix
 
 import models._
-import utils.QasmImport
+import utils.{Timer, QasmImport}
 
 class DataSet {
   var circuit: String = "No circuit opened"
   var showPreProcess: Boolean = false
   val preProcessingPolicies: Set[String] = PreProcessingPolicies.getPreProcessingPolicies
   val preProcessors: Set[String] = PreProcessors.getPreProcessors
+  var preProcessorStats: (EquationStatistics, EquationStatistics) = null
   var equation: String = "No equation processed"
   var showSolve: Boolean = false
   val solvingPolicies: Set[String] = SolvingPolicies.getSolvingPolicies
   val solvers: Set[String] = Solvers.getSolvers
+  var solverStats: Long = 0
   var result: String = "Circuit not solved"
   var showDownload: Boolean = false
 }
@@ -30,7 +32,9 @@ class DataSet {
 object Application extends Controller {
 
   var currentCircuit: QasmCircuit = null
+  var preStat: EquationStatistics = null
   var currentEquation: EquationEntity = null
+  var solvingTime: Long = 0
   var currentResult: Matrix[Complex] = null
 
   def index = Action {
@@ -42,11 +46,13 @@ object Application extends Controller {
       dataSet.showPreProcess = true
     }
     if(currentEquation != null) {
+      dataSet.preProcessorStats = (preStat, currentEquation.getStatistics)
       dataSet.equation = currentEquation.toString
       dataSet.showSolve = true
       dataSet.showPreProcess = false
     }
     if(currentResult != null) {
+      dataSet.solverStats = solvingTime
       dataSet.result = currentResult.toString(8,150)
       dataSet.showDownload = true
       dataSet.showSolve = false
@@ -74,7 +80,9 @@ object Application extends Controller {
         val preProcessingPolicy = request.body.dataParts("preProcessingPolicy")(0)
         val preProcessors = request.body.dataParts("preProcessors").toSet
 
-        currentEquation = PreProcessingPolicies.process(currentCircuit.toEquationEntity,
+        val tmpEquation = currentCircuit.toEquationEntity
+        preStat = tmpEquation.getStatistics
+        currentEquation = PreProcessingPolicies.process(tmpEquation,
                                                         preProcessingPolicy,
                                                         preProcessors)
 
@@ -88,7 +96,10 @@ object Application extends Controller {
       if(request.body.dataParts.contains("solvers")) {
         val solvingPolicy = request.body.dataParts("solvingPolicy")(0)
         val solvers = request.body.dataParts("solvers").toSet
+        val timer = new Timer()
+        timer.start
         currentEquation = SolvingPolicies.solve(currentEquation, solvingPolicy, solvers)
+        solvingTime = timer.stop
         currentResult = currentEquation.getResult
       }
     Redirect(routes.Application.index)

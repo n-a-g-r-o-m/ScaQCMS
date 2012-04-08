@@ -6,11 +6,11 @@
 
 package models
 
-import preprocessingpolicies.{PreProcessingPolicy, dummyPreProcessingPolicy}
+import preprocessingpolicies.{PreProcessingPolicy, DummyPreProcessingPolicy}
 
 object  PreProcessingPolicies {
   private val _preProcessingPolicies = Map[String, PreProcessingPolicy] (
-    "dummy" -> dummyPreProcessingPolicy
+    "dummy" -> DummyPreProcessingPolicy
   )
 
   def getPreProcessingPolicies = _preProcessingPolicies.keySet

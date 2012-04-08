@@ -11,7 +11,7 @@ import scalala.scalar.Complex
 
 import models.{EquationSymbol, EquationOperator, Equation, EquationEntity}
 
-object dummy2Solver extends Solver {
+object Dummy2Solver extends Solver {
   def call(equation: EquationEntity) = {
     if (equation.isInstanceOf[Equation]) {
       val _equation: Equation = equation.asInstanceOf[Equation]

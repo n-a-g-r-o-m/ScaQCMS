@@ -6,13 +6,13 @@
 
 package models
 
-import solvers.{SolverStatistics, Solver, dummySolver, dummy2Solver}
+import solvers.{SolverStatistics, Solver, DummySolver, Dummy2Solver}
 
 object Solvers {
 
   val _solvers = Map[String, Solver](
-    "dummy" -> dummySolver,
-    "dummy2" -> dummy2Solver
+    "dummy" -> DummySolver,
+    "dummy2" -> Dummy2Solver
   )
 
   def getSolvers = _solvers.keySet

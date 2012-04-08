@@ -7,15 +7,18 @@
 package models.solvingpolicies
 
 import models._
+import scala.actors.Futures._
 
-object dummySolvingPolicy extends SolvingPolicy {
+object DummySolvingPolicy extends SolvingPolicy {
   def solve(equation: EquationEntity, solvers: Set[String]): EquationEntity = {
     if (equation.isInstanceOf[EquationSymbol])
       equation
     else {
       val _equation = equation.asInstanceOf[Equation]
-      _equation.A = solve(_equation.A, solvers)
-      _equation.B = solve(_equation.B, solvers)
+      val solverOfA = future { solve(_equation.A, solvers) }
+      val solverOfB = future { solve(_equation.B, solvers) }
+      _equation.A = solverOfA.inputChannel.?
+      _equation.B = solverOfB.inputChannel.?
 
       var fastest: String = ""
       var fastestsTime = Long.MaxValue

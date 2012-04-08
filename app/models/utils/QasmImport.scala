@@ -7,10 +7,11 @@
 package models.utils
 
 import models.{QasmCircuit,QasmCommand}
+import collection.SortedMap
 
 object QasmImport {
 
-  private def getLongest(map: Map[String, Vector[QasmCommand]]): Int = {
+  private def getLongest(map: SortedMap[String, Vector[QasmCommand]]): Int = {
     map.foldLeft(0)((longest, mapEntry) => longest max mapEntry._2.size)
   }
 
@@ -21,8 +22,8 @@ object QasmImport {
     }
   }
 
-  private def qasm2commandMap(qasm: String): Map[String, Vector[QasmCommand]] = {
-    var commandMap = Map.empty[String, Vector[QasmCommand]]
+  private def qasm2commandMap(qasm: String): SortedMap[String, Vector[QasmCommand]] = {
+    var commandMap = SortedMap.empty[String, Vector[QasmCommand]]
 
     for (line: String <- qasm.split("\\n"); //For each line in qasm,
          trimmedLine = line.trim; //

@@ -6,11 +6,11 @@
 
 package models
 
-import solvingpolicies.{dummySolvingPolicy, SolvingPolicy}
+import solvingpolicies.{DummySolvingPolicy, SolvingPolicy}
 
 object  SolvingPolicies {
   private val _solvingPolicies = Map[String, SolvingPolicy] (
-    "dummy" -> dummySolvingPolicy
+    "dummy" -> DummySolvingPolicy
   )
 
   def getSolvingPolicies = _solvingPolicies.keySet

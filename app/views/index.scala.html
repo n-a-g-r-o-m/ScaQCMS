@@ -31,6 +31,43 @@
             <input type="submit" value="Preprocess">
           }
         }
+        @if(dataSet.showSolve) {
+        <hr>
+        <b>Pre processing stats:</b>
+        <table>
+            <tr><th/><th>Before</th><th>After</th><th>%</th></tr>
+            <tr>
+                <td>Sum operations</td>
+                <td>@dataSet.preProcessorStats._1.sumOperations</td>
+                <td>@dataSet.preProcessorStats._2.sumOperations</td>
+                <td>@(100*dataSet.preProcessorStats._2.sumOperations/dataSet.preProcessorStats._1.sumOperations)%</td>
+            </tr>
+            <tr>
+                <td>Multiply operations</td>
+                <td>@dataSet.preProcessorStats._1.multiplyOperations</td>
+                <td>@dataSet.preProcessorStats._2.multiplyOperations</td>
+                <td>@(100*dataSet.preProcessorStats._2.multiplyOperations/dataSet.preProcessorStats._1.multiplyOperations)%</td>
+            </tr>
+            <tr>
+                <td>Memory peak</td>
+                <td>@dataSet.preProcessorStats._1.memoryPeak</td>
+                <td>@dataSet.preProcessorStats._2.memoryPeak</td>
+                <td>@(100*dataSet.preProcessorStats._2.memoryPeak/dataSet.preProcessorStats._1.memoryPeak)%</td>
+            </tr>
+            <tr>
+                <td>Memory result</td>
+                <td>@dataSet.preProcessorStats._1.memoryResult</td>
+                <td>@dataSet.preProcessorStats._2.memoryResult</td>
+                <td>@(100*dataSet.preProcessorStats._2.memoryResult/dataSet.preProcessorStats._1.memoryResult)%</td>
+            </tr>
+            <tr>
+                <td>Depth</td>
+                <td>@dataSet.preProcessorStats._1.depth</td>
+                <td>@dataSet.preProcessorStats._2.depth</td>
+                <td>@(100*dataSet.preProcessorStats._2.depth/dataSet.preProcessorStats._1.depth)%</td>
+            </tr>
+        </table>
+        }
     </fieldset>
     <fieldset>
         <legend>Equation</legend>
@@ -53,6 +90,11 @@
                 </select>
                 <input type="submit" value="Solve">
             }
+        }
+        @if(dataSet.showDownload) {
+        <hr>
+        <b>Solving statistics</b><br>
+        Solving time: @(dataSet.solverStats/1000)ms
         }
     </fieldset>
     <fieldset>
