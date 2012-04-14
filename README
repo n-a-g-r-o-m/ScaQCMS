@@ -6,27 +6,42 @@ This software is released under the MIT.  See MIT-LICENSE for details.
 Copyright (c) 2012 | Antti Vikman | n-a-g-r-o-m
 
 Building upon:
-    Play framework 2.0  http://www.playframework.org/       (http://www.apache.org/licenses/LICENSE-2.0.html)
-    Scalala             https://github.com/scalala/Scalala  (https://github.com/scalala/Scalala/blob/master/LICENSE)
+    Play framework 2.0  http://www.playframework.org/
+                        http://www.apache.org/licenses/LICENSE-2.0.html
+    Scalala             https://github.com/scalala/Scalala
+                        https://github.com/scalala/Scalala/blob/master/LICENSE
+
+Developing:
+    Source code available in github.
+    https://github.com/n-a-g-r-o-m/ScaQCMS
+
+    In order to compile, you need to have SBT installed to your system.
+    https://github.com/harrah/xsbt
+
+    When SBT is installed, simply run command "sbt" in this folder and
+    you will get to sbt console.
+
+    Some commands in SBT console:
+        compile Compiles changed sources
+
+        run     Compiles changed sources and runs the application.
+                You can access the UI in address http:\\localhost:9000
+                NOTE: This re-compiles on "UI refresh" if sources have changed
+
+        doc     Compiles changed sources and generates an API documentation
+
+        dist    Compiles changed sources and generates distribution ZIP package.
+
+        clean   Cleans all compiled class files etc. use after heavy re-factoring
 
 Usage:
-    Since you have already successfully unzipped the ScaQCMS, now all you need to do is run it.
+    If you received this as an distribution package (created with dist-command),
+    then all you need to do is unzipped the ScaQCMS and run it.
 
-    Linux (you need to be in this folder):
+    Linux (in the folder where ScaQCMS was unzipped):
         chmod +x start
         ./start
 
-    Now the ScaQCMS is running and you can access it via web-browser in address http:\\localhost:9000
+    Now the ScaQCMS is running and you can access it via web-browser
+    in address http:\\localhost:9000
 
-Developing:
-    Source code available in github https://github.com/n-a-g-r-o-m/ScaQCMS
-
-    In order to compile, you need to have SBT (https://github.com/harrah/xsbt) installed to your system.
-
-    When SBT is installed you just run command "sbt" in this folder and you will get to sbt console.
-
-    Some commands in SBT console:
-        compile - Compiles changed sources
-        run - Compiles changed sources and runs the application (re-compiles on "UI refresh" if sources have changed)
-        doc - Compiles changed sources and generates an API documentation
-        dist - Compiles changed sources and generates distribution ZIP package.

@@ -8,10 +8,14 @@ package models.preprocessors
 
 import models.EquationEntity
 
+/**
+ * This is a _dummy_ pre processing algorithm, which doesn't do anything for the equation.
+ */
 object DummyPreProcessor extends PreProcessor {
-  def call(equation: EquationEntity) = {
+
+  def process(equation: EquationEntity) = {
     val timer = new models.utils.Timer
-    timer.start
+    timer.start()
     val resultEquation = equation
     totalTime += timer.stop
     times += 1

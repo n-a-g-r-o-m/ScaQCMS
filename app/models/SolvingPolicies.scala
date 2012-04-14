@@ -8,6 +8,10 @@ package models
 
 import solvingpolicies.{DummySolvingPolicy, SolvingPolicy}
 
+/**
+ * SolvingPolicies is a global container of all known solving policies
+ * @todo adding and removing of policies on runtime
+ */
 object  SolvingPolicies {
   private val _solvingPolicies = Map[String, SolvingPolicy] (
     "dummy" -> DummySolvingPolicy

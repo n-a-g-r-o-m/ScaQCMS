@@ -2,7 +2,7 @@
 
 @main("ScaQCMS") {
 
-    @helper.form(action = routes.Application.upload, 'enctype -> "multipart/form-data") {
+    @helper.form(action = routes.ScaQCMS.upload, 'enctype -> "multipart/form-data") {
 
 <fieldset>
         <legend>Open qasmCircuit</legend>
@@ -15,7 +15,7 @@
             <tr><td>@Html(dataSet.circuit.replace("\t","</td><td>").replace("<td>\n", "</tr>\n<tr><td>"))</td></tr>
         </table>
         @if(dataSet.showPreProcess) {
-          @helper.form(action = routes.Application.preprocess, 'enctype -> "multipart/form-data") {
+          @helper.form(action = routes.ScaQCMS.preprocess, 'enctype -> "multipart/form-data") {
             PreProcessingPolicy:
             <select name="preProcessingPolicy">
                 @for(preProcessingPolicy <- dataSet.preProcessingPolicies) {
@@ -35,7 +35,7 @@
         <hr>
         <b>Pre processing stats:</b>
         <table>
-            <tr><th/><th>Before</th><th>After</th><th>%</th></tr>
+            <tr><th></th><th>Before</th><th>After</th><th>%</th></tr>
             <tr>
                 <td>Sum operations</td>
                 <td>@dataSet.preProcessorStats._1.sumOperations</td>
@@ -75,7 +75,7 @@
             <tr><td>@Html(dataSet.equation)</td></tr>
         </table>
         @if(dataSet.showSolve) {
-            @helper.form(action = routes.Application.solve, 'enctype -> "multipart/form-data") {
+            @helper.form(action = routes.ScaQCMS.solve, 'enctype -> "multipart/form-data") {
                 SolvingPolicy:
                 <select name="solvingPolicy">
                     @for(solvingPolicy <- dataSet.solvingPolicies) {
@@ -103,7 +103,7 @@
             <tr><td>@Html(dataSet.result.replace("  ","</td><td>").replace("\n", "</td></tr>\n<tr><td>"))</td></tr>
         </table>
         @if(dataSet.showDownload) {
-            @helper.form(action = routes.Application.download) {<input type="submit" value="Download result">}
+            @helper.form(action = routes.ScaQCMS.download) {<input type="submit" value="Download result">}
         }
     </fieldset>
 }

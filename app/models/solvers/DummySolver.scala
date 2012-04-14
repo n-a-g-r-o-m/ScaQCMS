@@ -11,12 +11,16 @@ import scalala.scalar.Complex
 
 import models.{EquationSymbol, EquationOperator, Equation, EquationEntity}
 
+/**
+ * DummySolver is very simple implementation of solver, that relies fully on the arithmetic implementation
+ * of scalala in matrix multiplication and tensoring.
+ */
 object DummySolver extends Solver {
-  def call(equation: EquationEntity) = {
+  def solve(equation: EquationEntity) = {
     if (equation.isInstanceOf[Equation]) {
       val _equation: Equation = equation.asInstanceOf[Equation]
       val timer = new models.utils.Timer
-      timer.start
+      timer.start()
       val resultEquation = {
         _equation.operator match {
           case EquationOperator.Multiply =>
@@ -34,7 +38,7 @@ object DummySolver extends Solver {
           totalMultiplyTime += time
         case EquationOperator.Kronecker =>
           totalTensoringCells += cells
-          totalTensoringTime += time * 10
+          totalTensoringTime += time
       }
       resultEquation
     } else

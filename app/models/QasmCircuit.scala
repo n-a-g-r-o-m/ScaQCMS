@@ -10,12 +10,22 @@ import collection.SortedMap
 
 case class QasmCommand(name: String, qubits: Array[String])
 
+/**
+ * QasmCircuit is a intermediate format of QASM circuit, that can be then converted to
+ * String for "human readable" presentation format or to EquationEntity to be pre processed
+ * and solved.
+ * @param commandMap QASM circuit data from QasmImporter
+ */
 class QasmCircuit(commandMap: SortedMap[String, Vector[QasmCommand]]) {
 
   private def getLongest(map: SortedMap[String, Vector[QasmCommand]]): Int = {
     map.foldLeft(0)((longest, mapEntry) => longest max mapEntry._2.size)
   }
 
+  /**
+   * Human readable presentation of the circuit
+   * @return String presentation of the circuit
+   */
   override def toString: String = {
     var returnString = ""
     for ((qubit, gates) <- commandMap) {
@@ -30,6 +40,10 @@ class QasmCircuit(commandMap: SortedMap[String, Vector[QasmCommand]]) {
     returnString
   }
 
+  /**
+   * EquationEntity presentation of the circuit
+   * @return an solvable EquationEntity of the circuit
+   */
   def toEquationEntity: EquationEntity = {
     var result: EquationEntity = null
     var columnResult: EquationEntity = null

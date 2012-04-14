@@ -8,8 +8,17 @@ package models.preprocessors
 
 import models.{EquationOperator, Equation, EquationEntity}
 
+/**
+ * BalancePreProcessor uses the binary-tree rotation algorithms to balance the tree.
+ * This improves the parallel solvability of the equation.
+ */
 object BalancePreProcessor extends PreProcessor {
-
+  /**
+   * Balances the equation tree. This should be called via process.
+   *
+   * @param equation the equation to be balanced
+   * @return an balanced equation
+   */
   private def balance(equation: EquationEntity): EquationEntity = {
     if(equation.isInstanceOf[Equation]) {
       val _equation = equation.asInstanceOf[Equation]
@@ -53,9 +62,9 @@ object BalancePreProcessor extends PreProcessor {
     equation
   }
 
-  def call(equation: EquationEntity) = {
+  def process(equation: EquationEntity) = {
     val timer = new models.utils.Timer
-    timer.start
+    timer.start()
     val resultEquation = balance(equation)
     totalTime += timer.stop
     times += 1

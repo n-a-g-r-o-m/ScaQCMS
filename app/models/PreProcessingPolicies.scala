@@ -8,6 +8,10 @@ package models
 
 import preprocessingpolicies.{PreProcessingPolicy, DummyPreProcessingPolicy}
 
+/**
+ * PreProcessingPolicies is a global container of all known pre processing policies
+ * @todo adding and removing of policies on runtime
+ */
 object  PreProcessingPolicies {
   private val _preProcessingPolicies = Map[String, PreProcessingPolicy] (
     "dummy" -> DummyPreProcessingPolicy

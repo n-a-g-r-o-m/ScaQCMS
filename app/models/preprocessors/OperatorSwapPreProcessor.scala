@@ -8,12 +8,24 @@ package models.preprocessors
 
 import models.{EquationOperator, Equation, EquationEntity}
 
-object RotationPreProcessor extends PreProcessor {
-  private def rotate(equation: EquationEntity): EquationEntity = {
+/**
+ * OperatorSwapPreProcessor swaps solving order of tensoring and multiplication, when ever it's possible.
+ * We know that (A⊗B)*(C⊗D) equals (A*C)⊗(B*D), when A.cols equals C.rows and B.cols equals D.rows.
+ * If all matrices A-D are 2x2 times to matrices, in first case we would have two times tensoring of 2x2 matrices and
+ * once multiplication of 4x4 matrices, which contains way much more arbitrary operations than the second case where
+ * we have two times multiplication of 2x2 matrices and once tensoring of 4x4 matrices.
+ */
+object OperatorSwapPreProcessor extends PreProcessor {
+  /**
+   * Swaps the tensoring operation and multiplication operations (when possible). This should be called via process.
+   * @param equation the equation to be processed
+   * @return an equation where tensoring operation and multiplication operations has been swapped
+   */
+  private def swap(equation: EquationEntity): EquationEntity = {
     if (equation.isInstanceOf[Equation]) {
       val _equation = equation.asInstanceOf[Equation]
-      _equation.B = rotate(_equation.B)
-      _equation.A = rotate(_equation.A)
+      _equation.B = swap(_equation.B)
+      _equation.A = swap(_equation.A)
       if (_equation.operator == EquationOperator.Multiply)
         if (_equation.A.isInstanceOf[Equation])
           if (_equation.B.isInstanceOf[Equation]) {
@@ -40,10 +52,11 @@ object RotationPreProcessor extends PreProcessor {
     }
     equation
   }
-  def call(equation: EquationEntity) = {
+
+  def process(equation: EquationEntity) = {
     val timer = new models.utils.Timer
-    timer.start
-    val resultEquation = rotate(equation)
+    timer.start()
+    val resultEquation = swap(equation)
     totalTime += timer.stop
     times += 1
     resultEquation

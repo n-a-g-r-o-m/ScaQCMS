@@ -6,13 +6,15 @@
 
 package models
 
-import solvers.{SolverStatistics, Solver, DummySolver, Dummy2Solver}
-
+import solvers.{SolverStatistics, Solver, DummySolver}
+/**
+ * Solvers is a global container of all known solvers
+ * @todo adding and removing of solvers on runtime
+ */
 object Solvers {
 
   val _solvers = Map[String, Solver](
-    "dummy" -> DummySolver,
-    "dummy2" -> Dummy2Solver
+    "dummy" -> DummySolver
   )
 
   def getSolvers = _solvers.keySet
@@ -30,6 +32,6 @@ object Solvers {
     if(!_solvers.contains(solver))
       throw new MatchError("No such solver as \"" + solver + "\"")
 
-    _solvers.get(solver).get.call(equation)
+    _solvers.get(solver).get.solve(equation)
   }
 }

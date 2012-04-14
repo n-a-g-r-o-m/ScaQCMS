@@ -8,13 +8,16 @@ package models
 
 import preprocessors._
 
-
+/**
+ * PreProcessors is a global container of all known pre processors
+ * @todo adding and removing of pre processors on runtime
+ */
 object PreProcessors {
   
   val _preProcessors = Map[String, PreProcessor](
     "dummy" -> DummyPreProcessor,
     "balance" -> BalancePreProcessor,
-    "rotation" -> RotationPreProcessor,
+    "operator swap" -> OperatorSwapPreProcessor,
     "known results" -> KnownResultsPreProcessor
   ) 
   
@@ -26,6 +29,6 @@ object PreProcessors {
     if(!_preProcessors.contains(preProcessor))
       throw new MatchError("No such preprocessor as \"" + preProcessor + "\"")
 
-    _preProcessors.get(preProcessor).get.call(equation)
+    _preProcessors.get(preProcessor).get.process(equation)
   }
 }

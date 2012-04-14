@@ -10,51 +10,77 @@ import scalala.scalar.Complex
 import scalala.library.LinearAlgebra._
 import scalala.tensor.Matrix
 
+
+/**
+ * Enumeration of mathematical operators
+ */
 object EquationOperator extends Enumeration {
   type EquationOperator = Value
   val Multiply, Kronecker = Value
 }
 
+/**
+ * EquationStatistics is a collection of data for theoretical complexity analysis of the equation
+ *
+ * @param sumOperations number of arbitrary sum operations in the equation
+ * @param multiplyOperations number of arbitrary multiply operations in the equation
+ * @param memoryPeak peak memory requirement during solving
+ * @param memoryResult memory requirement of the result
+ * @param depth the depth of the equation (levels of dependencies, the higher the worse for parallelling)
+ */
 case class EquationStatistics(sumOperations: Long,
                               multiplyOperations: Long,
                               memoryPeak: Long,
                               memoryResult: Long,
                               depth: Int)
 
+/**
+ * EquationEntity is an abstract class that works as unified interface for Equation and EquationSymbol
+ * @todo Looks like this could be refactored to Trait
+ */
 abstract class EquationEntity {
   /** Rows in the result matrix
-    * @return  number of rows in the result matrix
-    */
+   * @return  number of rows in the result matrix
+   */
   def rows: Int
 
   /** Columns in the result matrix
-    * @return number of columns in the result matrix
-    */
+   * @return number of columns in the result matrix
+   */
   def cols: Int
 
   /** Cells in the result matrix
-    * @return number of cells in the result matrix
-    */
+   * @return number of cells in the result matrix
+   */
   def size: Int
 
   /** The result matrix
-    * @return the result matrix
-    */
+   * @return the result matrix
+   */
   def getResult: Matrix[Complex]
 
-  /** Statistics about the equation.  Especially useful for PreProcessing policies to determine the effectivnes of
-    * selected pre-processing algorithm
-    * @return statistics about this equation (tree)
-    */
+  /** Statistics about the equation.  Especially useful for PreProcessing policies to determine
+   * the effectiveness of selected pre-processing algorithm
+   * @return statistics about this equation (tree)
+   */
   def getStatistics: EquationStatistics
 
   /** Human readable presentation of the EquationEntity
-    * @return  String presentation of the EquationEntity
-    */
-  def toString: String
+   * @return  String presentation of the EquationEntity
+   */
+  override def toString: String
 }
 
 import EquationOperator._
+
+/**
+ * Equation is a intermediate node of "Equation-tree", that contains 2 component a (left) and b (right),
+ * an op that defines the operation that shall be perfomed for a and b and result, which will be
+ * defined when the equation is solved.
+ * @param a left side of the equation
+ * @param b right side of the equation
+ * @param op arithmetic operator of the operation that shall be performed for a and b
+ */
 class Equation(a: EquationEntity, b: EquationEntity, op: EquationOperator) extends EquationEntity {
 
   if(op == EquationOperator.Multiply)
@@ -66,8 +92,8 @@ class Equation(a: EquationEntity, b: EquationEntity, op: EquationOperator) exten
   private var _op = op
   private var _result: Matrix[Complex] = null
 
-  def A = _a
-  def A_= (a: EquationEntity) {
+  def A = _a // Getter of a (left)
+  def A_= (a: EquationEntity) { // Setter of a (left)
     _a = a
   }
   def B = _b
@@ -165,6 +191,12 @@ class Equation(a: EquationEntity, b: EquationEntity, op: EquationOperator) exten
   }
 }
 
+/**
+ * EquationSymbol is a leaf node of "Equation-tree", that has a matrix (of some quantum gate)
+ * and name of that matrix
+ * @param name identifier of the matrix
+ * @param matrix actual matrix (if this is not defined, then matrix will be fetched from QuantumGates)
+ */
 class EquationSymbol(name: String,  matrix: Matrix[Complex] = null) extends EquationEntity {
   private val _matrix: Matrix[Complex] = ( if(matrix == null) QuantumGates.get(name) else matrix )
 
