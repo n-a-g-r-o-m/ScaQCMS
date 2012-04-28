@@ -75,9 +75,9 @@ object QuantumGates {
   def get(key: String): DenseMatrix[Complex] = {
     // Quantum Fourier transform (QFT) relies on controlled phase gates that are usually named in QASM cPn
     if (key.startsWith("P")) {
-      if(key.drop(2).forall(_.isDigit)) {
+      if(key.drop(1).forall(_.isDigit)) {
         val phase: Complex = (
-          key.drop(2).toInt match {
+          key.drop(1).toInt match {
             case 2 =>
               Complex(-1,0)
             case 4 =>
